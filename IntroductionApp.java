@@ -25,7 +25,11 @@ public class IntroductionApp{
 		int[] status = makeStatus(seed,maxArr);
 		System.out.println("初期ステータスが決定しました");
 		showStatus(status,params);
-
+		System.out.printf("種族を選んでください%s>%n",arrToString(races));
+		int race = sc.nextInt();
+		System.out.println(races[race]+"のボーナスが適用されました!");
+		raceBonus(status,raceMatrix[race]);
+		showStatus(status,params);
 	}
 
 	static int calcSeed(String name){
@@ -72,5 +76,18 @@ public class IntroductionApp{
 			str += params[i] + ":" + status[i]+" ";
 		}
 		System.out.println("[" + str + "]");
+	}
+	static String arrToString(String[] arr){
+		String str ="";
+		for(int i = 0; i < arr.length;i++){
+			//str += i + "..."+arr[i]+","; 
+			str += String.format("%d...%s,",i,arr[i]);
+
+		}
+		//最後の,を削除
+		str = str.substring(0,str.length()-1);
+		return str;
+
+
 	}
 }
