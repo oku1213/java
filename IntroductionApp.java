@@ -21,73 +21,78 @@ public class IntroductionApp{
 		System.out.print("名前を入力してください>>");
 		String name = sc.nextLine();
 		int seed = calcSeed(name);
-		int[] maxArr = {100,100,50,50,50};
+		int[] maxArr={100,100,50,50,50};
 		int[] status = makeStatus(seed,maxArr);
 		System.out.println("初期ステータスが決定しました");
 		showStatus(status,params);
-		System.out.printf("種族を選んでください%s>%n",arrToString(races));
+		System.out.printf("種族を選んでください%s>",arrToString(races));
 		int race = sc.nextInt();
 		System.out.println(races[race]+"のボーナスが適用されました!");
 		raceBonus(status,raceMatrix[race]);
 		showStatus(status,params);
+		System.out.printf("職業を選んでください%s>",arrToString(classes));
+		int cls = sc.nextInt();
+		System.out.println(classes[cls]+"のボーナスが適用されました!");
+		classBonus(status,classMatrix[cls]);
+		showStatus(status,params);
+		System.out.println("***作成成功!***");
+		System.out.printf("私は%sの%s、%sです。%n",classes[cls],races[race],name);
+		System.out.println("能力値(" + sumStatus(status)+")");
+		for(int i=0;i<status.length;i++){
+			System.out.printf("%s:%d%n",params[i],status[i]);
+		}
+		System.out.println("です。今後もよろしく...");
 	}
-
 	static int calcSeed(String name){
 		//seed(種)
-		int seed =0;
+		int seed = 0;
 		//名前の文字数分回るループ
-		for(int i =0;i < name.length(); i++){
+		for(int i=0;i<name.length();i++){
 			//一文字ずつ取り出しながらseedに加算
 			seed += name.charAt(i);
 		}
 		return seed;
 	}
-	//seed値を元に各パラメーターを決定する
 	static int[] makeStatus(int seed,int[] maxArr){
 		int[] vals = new int[maxArr.length];
 		Random rand = new Random(seed);
-		for(int i = 0; i< vals.length; i++){
+		for(int i=0;i<vals.length;i++){
 			vals[i] = rand.nextInt(maxArr[i])+1;
 		}
 		return vals;
 	}
-	//種族ボーナスを加算するメソッド
 	static void raceBonus(int[] status,int[] bonus){
-		for(int i =0; i < status.length; i++){
+		for(int i=0;i<status.length;i++){
 			status[i] += bonus[i];
 		}
 	}
 	static void classBonus(int[] status,double[] ratio){
-		for(int i = 0; i < status.length ;i++){
-			status[i] = (int)(status[i]*ratio[i]);
+		for(int i=0;i<status.length;i++){
+			status[i] =(int)(status[i]*ratio[i]);
 		}
 	}
 	static int sumStatus(int[] status){
-		int sum = 0;
+		int sum=0;
 		for(int n:status){
 			sum += n;
 		}
 		return sum;
 	}
-
 	static void showStatus(int[] status,String[] params){
 		String str = "";
-		for(int i = 0;i < status.length ; i++){
-			str += params[i] + ":" + status[i]+" ";
+		for(int i=0;i<status.length;i++){
+			str += params[i] + ":" +status[i]+" ";
 		}
 		System.out.println("[" + str + "]");
 	}
 	static String arrToString(String[] arr){
-		String str ="";
-		for(int i = 0; i < arr.length;i++){
-			//str += i + "..."+arr[i]+","; 
+		String str="";
+		for(int i=0;i<arr.length;i++){
+			//str += i + "..." +arr[i]+",";
 			str += String.format("%d...%s,",i,arr[i]);
-
 		}
-		//最後の,を削除
+		//最後の,削除
 		str = str.substring(0,str.length()-1);
 		return str;
-
-
 	}
 }
